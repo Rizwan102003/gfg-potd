@@ -1,0 +1,128 @@
+Additive sequence
+
+PROBLEM STATEMENT 
+
+Given a string n, your task is to find whether it contains an additive sequence or not. A string n contains an additive sequence if its digits can make a sequence of numbers in which every number is addition of previous two numbers. You are required to complete the function which returns true if the string is a valid sequence else returns false. For better understanding check the examples.
+
+Note: A valid string should contain at least three digit to make one additive sequence. 
+
+EXAMPLE 1 :
+
+Input:  
+n = "1235813"
+Output: 
+1
+Explanation: 
+The given string can be splited into a series of numbers  
+where each number is the sum of the previous two numbers: 
+1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8, and 5 + 8 = 13. Hence, the output would be 1 (true).
+
+EXAMPLE 2 :
+
+Input:  
+n = "11235815"
+Output: 
+0
+Explanation: 
+We can start with the first two digits: "11".
+First number: 1, Second number: 1, Sum: 1 + 1 = 2
+Now, we have "2" as the next number.
+First number: 1, Second number: 2, Sum: 1 + 2 = 3
+Now, we have "3" as the next number.
+First number: 2, Second number: 3, Sum: 2 + 3 = 5
+Now, we have "5" as the next number.
+First number: 3, Second number: 5, Sum: 3 + 5 = 8
+Now, we have "8" as the next number.
+First number: 5, Second number: 8, Sum: 5 + 8 = 13
+At this point, there is no "13" present in the remaining digits "815". Hence, the output would be 0 (or false).
+
+User Task: 
+Your task is to complete the function isAdditiveSequence() which takes a single string as input n and returns a boolean value indicating whether the given string contains an additive sequence or not. You need not take any input or print anything.
+
+Expected Time Complexity: O(n3).
+Expected Auxiliary Space: O(1).
+
+Constraints:
+3 <= lenght( n ) <= 200
+1 <= digits of string <= 9
+
+CODE (JAVA)
+
+//{ Driver Code Starts
+import java.util.*;
+
+public class GFG {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            String s = sc.next();
+            Solution ss = new Solution();
+            boolean result = ss.isAdditiveSequence(s);
+            System.out.println((result == true ? 1 : 0));
+        }
+        sc.close();
+    }
+}
+// } Driver Code Ends
+
+class Solution {
+    public boolean isAdditiveSequence(String s) {
+        List<String> res = new ArrayList<>();
+        int l = s.length();
+
+        for (int i = 1; i <= l / 2; i++) {
+            for (int j = 1; j <= (l - i) / 2; j++) {
+                if (checkAddition(res, s.substring(0, i), s.substring(i, i + j),
+                                  s.substring(i + j))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    boolean checkAddition(List<String> res, String a, String b, String c) {
+        if (!isValid(a) || !isValid(b)) return false;
+        String sum = addString(a, b);
+
+        if (sum.equals(c)) {
+            res.add(sum);
+            return true;
+        }
+
+        if (c.length() <= sum.length() || !sum.equals(c.substring(0, sum.length())))
+            return false;
+        else {
+            res.add(sum);
+            return checkAddition(res, b, sum, c.substring(sum.length()));
+        }
+    }
+
+    boolean isValid(String num) {
+        if (num.length() > 1 && num.charAt(0) == '0') return false;
+        return true;
+    }
+
+    int val(String a, int pos) {
+        if (pos >= a.length() || pos < 0) return 0;
+        return (a.charAt(pos) - '0');
+    }
+
+    String addString(String a, String b) {
+        StringBuilder sum = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+
+        while (i >= 0 || j >= 0) {
+            int t = val(a, i) + val(b, j) + carry;
+            sum.append(t % 10);
+            carry = t / 10;
+            i--;
+            j--;
+        }
+        if (carry > 0) sum.append(carry);
+        return sum.reverse().toString();
+    }
+}
