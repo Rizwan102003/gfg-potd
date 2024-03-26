@@ -1,4 +1,4 @@
-Problem Statement : 
+/*Problem Statement : 
 Print N-bit binary numbers having more 1s than 0s
 
 Given a positive integer n. Your task is to generate a string list of all n-bit binary numbers where, 
@@ -36,7 +36,7 @@ Constraints:
 1 <= n <= 15
 
 
-SOLUTION : 
+SOLUTION : */
 
 //{ Driver Code Starts
 #include <bits/stdc++.h>
