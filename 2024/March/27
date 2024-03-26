@@ -1,0 +1,153 @@
+Find shortest safe route in a matrix
+
+PROBLEM STATEMENT
+
+Given a matrix mat[][] with r rows and c columns, where some cells are landmines (marked as 0) and others are safe to traverse. Your task is to find the shortest safe route from any cell in the leftmost column to any cell in the rightmost column of the mat. You cannot move diagonally, and you must avoid both the landmines and their adjacent cells (up, down, left, right), as they are also unsafe.
+
+EXAMPLE 1 :
+
+Input:
+mat = [1, 0, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 1, 1, 0, 1],
+      [1, 1, 1, 1, 0]
+Output: 
+6
+Explanation: 
+We can see that length of shortest
+safe route is 6 (Highlighted in Bold).
+[1 0 1 1 1]
+[1 1 1 1 1] 
+[1 1 1 1 1]
+[1 1 1 0 1] 
+[1 1 1 1 0]
+
+EXAMPLE 2 :
+
+mat = [1, 1, 1, 1, 1],
+      [1, 1, 0, 1, 1],
+      [1, 1, 1, 1, 1]
+Output: 
+-1
+Explanation: There is no possible path from
+first column to last column.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function findShortestPath() which takes matrix as input parameter and return an integer denoting the shortest safe path form any cell in leftmost column to any cell in rightmost column of mat. If there is no possible path, return -1. 
+
+Expected Time Complexity: O(r * c)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 <= r, c <= 103
+0 <= mat[][] <= 1
+
+CODE 
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+
+//User function Template for C++
+
+class Solution
+{
+public:
+    int rowNum[4] = {-1, 0, 0, 1}; // Changes in row to move up, stay, stay, move down
+    int colNum[4] = {0, -1, 1, 0}; // Changes in column to move left, stay, move right, stay
+    
+    int findShortestPath(vector<vector<int>> &mat)
+    {
+        int n = mat.size(); // Number of rows
+        int m = mat[0].size(); // Number of columns
+        
+        queue<array<int,3>> q; // Queue to perform BFS
+        
+        int d[n][m]; // Distance array to store shortest distance
+        
+        // Initializing distance array with a large value
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                d[i][j] = 1e9;
+        
+        // Lambda function to check if cell is valid
+        auto isValid = [&](int i, int j) {
+            if(i < 0 || i >= n || j < 0 || j >= m) return false;
+            return true;
+        };
+        
+        // Lambda function to check if cell and its adjacent cells are safe
+        auto check = [&](int i, int j) {
+            if(!isValid(i, j)) return false;
+            for(int k = 0; k < 4; k++) {
+                if(isValid(i + rowNum[k], j + colNum[k]) && !mat[i + rowNum[k]][j + colNum[k]]) return false;
+            }
+            return true;
+        };
+        
+        // Pushing cells from the rightmost column into the queue
+        for(int i = 0; i < n; i++) {
+            if(check(i, m - 1)) {
+                q.push({i, m - 1, 1});
+            }
+        }
+        
+        // BFS traversal
+        while(!q.empty()) {
+            auto z = q.front();
+            int x = z[0], y = z[1], dis = z[2];
+            q.pop();
+            if(d[x][y] > dis) {
+                d[x][y] = dis;
+                for(int k = 0; k < 4; k++) {
+                    if(check(x + rowNum[k], y + colNum[k])) {
+                        q.push({x + rowNum[k], y + colNum[k], dis + 1});
+                    }
+                }
+            }
+        }
+        
+        // Finding the minimum distance in the first column
+        int ans = 1e9;
+        for(int i = 0; i < n; i++)
+            ans = min(ans, d[i][0]);
+        
+        // If no safe path found, return -1
+        if(ans >= 1e9) ans = -1;
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int R, C;
+        cin >> R >> C;
+        vector<vector<int>> mat(R, vector<int>(C));
+        for (int i = 0; i < R; i++)
+        {
+            for (int j = 0; j < C; j++)
+            {
+                cin >> mat[i][j];
+            }
+        }
+
+        Solution ob;
+        int ans = ob.findShortestPath(mat);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+
+// } Driver Code Ends
