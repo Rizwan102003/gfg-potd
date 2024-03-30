@@ -13,7 +13,7 @@ Expected Space Complexity: O(v)
 
 Constraints:
 1 <= v <= 105
-1 <= edges <= 2*105
+1 <= edges <= 2*10^5
 
 CODE (JAVA)
  */

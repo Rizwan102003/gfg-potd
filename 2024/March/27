@@ -1,3 +1,4 @@
+/*
 Find shortest safe route in a matrix
 
 PROBLEM STATEMENT
@@ -40,10 +41,11 @@ Expected Time Complexity: O(r * c)
 Expected Auxiliary Space: O(1)
 
 Constraints:
-1 <= r, c <= 103
+1 <= r, c <= 10^3
 0 <= mat[][] <= 1
 
 CODE 
+*/
 
 //{ Driver Code Starts
 //Initial Template for C++

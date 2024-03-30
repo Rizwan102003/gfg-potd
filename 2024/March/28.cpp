@@ -21,8 +21,8 @@ Constraints:
 1  ≤  n ≤  100
 1 <= m <= n*(n-1)/2
 length(edges[i]) == 3
-0 <= fromi < toi < n
-1 <= weighti distanceThreshold <= 104
+0 <= from i < to i < n
+1 <= weighti distanceThreshold <= 10^4
 All pairs (fromi, toi) are distinct
 
 CODE : 

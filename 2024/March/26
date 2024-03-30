@@ -1,3 +1,4 @@
+/*
 Additive sequence
 
 PROBLEM STATEMENT 
@@ -47,6 +48,7 @@ Constraints:
 1 <= digits of string <= 9
 
 CODE (JAVA)
+*/
 
 //{ Driver Code Starts
 import java.util.*;
