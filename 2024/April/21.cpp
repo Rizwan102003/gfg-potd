@@ -52,32 +52,35 @@ CODE :
 using namespace std;
 // } Driver Code Ends
 
-void swap(int *xp, int *yp)
-{
-    int temp = *xp;
-    *xp = *yp;
-    *yp = temp;
-}
-void threeWayPartition(int arr[], int n, int a, int b)
-{
-    //Using two pointers which help in finding the index with which
-    //the elements need to be swapped if they are not in correct position. 
-    int start = 0, end = n-1;
-    for (int i=0; i<=end;)
+class Solution{   
+public:
+    //Function to partition the array around the range such 
+    //that array is divided into three parts.
+    void threeWayPartition(vector<int>& array,int a, int b)
     {
-        //If current element is smaller than lower range, we swap 
-        //it with value on next available smallest position. 
-        if (arr[i] < a)
-            swap(&arr[i++], &arr[start++]);
-        //If current element is greater than higher range, we swap 
-        //it with value on next available greatest position. 
-        else if (arr[i] > b)
-            swap(&arr[i], &arr[end--]);
-        //Else we just move ahead in the array.
-        else
-            i++;
+        int n = array.size();
+        //Using two pointers which help in finding the index with which
+        //the elements need to be swapped if they are not in correct position. 
+        int start = 0, end = n-1;
+     
+        for (int i=0; i<=end;)
+        {
+            //If current element is smaller than lower range, we swap 
+            //it with value on next available smallest position. 
+            if (array[i] < a)
+                swap(array[i++], array[start++]);
+     
+            //If current element is greater than higher range, we swap 
+            //it with value on next available greatest position. 
+            else if (array[i] > b)
+                swap(array[i], array[end--]);
+            
+            //Else we just move ahead in the array.
+            else
+                i++;
+        }
     }
-}
+};
 
 //{ Driver Code Starts.
 int main() {
